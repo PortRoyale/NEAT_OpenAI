@@ -28,7 +28,7 @@ def eval_genome(genome, config):
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        max__ = -2 # the highest point is when observation = [0 1 0 1 . .]
+        max_height = -2 # the highest point is when observation = [0 1 0 1 . .]
 
         done = False
 
@@ -39,7 +39,21 @@ def eval_genome(genome, config):
 
             observation, reward, done, info = env.step(action)
 
-            fitness = np.max([max__, -observation[1] - observation[3]])
+
+            # theta = angle of bar closest to hub
+            # alpha = angle of bar farthest from hub
+            theta = np.arccos(observation[0])
+            alpha = np.arccos(observation[2])
+
+            gamma = 2*np.pi - theta - alpha
+
+            cos_theta = observation[0]
+            cos_alpha = observation[2]
+
+            current_height = (1 + cos_alpha) * (cos_theta)
+
+
+            fitness = np.max([max_height, current_height])
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will average them and return them as representative of the genomes fitness 
 

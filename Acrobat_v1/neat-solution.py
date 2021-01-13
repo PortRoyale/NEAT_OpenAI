@@ -3,6 +3,7 @@ import pickle
 import neat
 import gym
 import numpy as np
+import time
 
 
 # Load the winner from thisisneat.py
@@ -33,8 +34,31 @@ while not done:
 
     i += 1
 
-    print(done, observation, reward, action, i)
+    # theta = angle of bar closest to hub
+    # alpha = angle of bar farthest from hub
+    #NEED TO USE ARCTAN so we can get proper sign on our angles
+    theta = np.arctan(observation[1] / observation[0]) 
+    alpha = np.arctan(observation[3] / observation[2]) 
+    theta_deg = np.arctan(observation[1] / observation[0]) * 180 / np.pi
+    alpha_deg = np.arctan(observation[3] / observation[2]) * 180 / np.pi
+
+    gamma = 2*np.pi - theta - alpha
+    
+    cos_theta = observation[0]
+    cos_alpha = observation[2]
+
+    h1 = cos_theta
+    h2 = np.cos(2 * np.pi - theta - alpha)
+
+    current_height = - h1 + h2
+
+    print(done, observation, reward, action, current_height, theta, alpha, gamma, h1, h2, i)
 
     env.render()
+
+    if current_height >= 1:
+        time.sleep(5)
+
+    # time.sleep(0.2)
 
 env.close()
