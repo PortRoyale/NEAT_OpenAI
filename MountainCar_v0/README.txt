@@ -7,12 +7,12 @@ Description:
         any acceleration.
     Source:
         The environment appeared first in Andrew Moore's PhD Thesis (1990).
-    Observation:
+    Observation: # INPUTS
         Type: Box(2)
         Num    Observation               Min            Max
         0      Car Position              -1.2           0.6
         1      Car Velocity              -0.07          0.07
-    Actions:
+    Actions: # OUTPUTS
         Type: Discrete(3)
         Num    Action
         0      Accelerate to the Left

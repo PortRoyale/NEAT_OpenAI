@@ -12,7 +12,7 @@ import gym
 
 
 
-runs_per_net = 1
+runs_per_net = 4
 # simulation_seconds = 60.0
 
 
@@ -24,21 +24,29 @@ def eval_genome(genome, config):
 
     # Run the given simulation for up to num_steps time steps.
     for runs in range(runs_per_net):
-        env = gym.make("CartPole-v1") # make new gym environment for every new agent in the epoch 
+        env = gym.make("MountainCar-v0") # make new gym environment for every new agent in the epoch 
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        fitness = 0.0
-        done = False
-        while not done:
+        min_obs = -0.5
+        max_obs = -0.5
 
-            action = np.argmax(net.activate(observation))
+        done = False
+
+        while not done:
+            determinations = net.activate(observation) # returns r squared probabilities in an array of the 3 thrust actions
+
+            action = np.argmax(determinations) # returns index of action most wanted, and it equals the actions itself due to README...i.e. left = 0, nothing = 1, right = 2 and we want to end up towards the right hand side at finishline
 
             observation, reward, done, info = env.step(action)
 
-            fitness += reward # ???? don't we have to re-zero this at some point?
 
-        fitnesses.append(fitness)
+            max_obs = np.max([max_obs, observation[0]]) # find maximum observed distance of all time
+            min_obs = np.min([min_obs, observation[0]]) # find minimum observed distance of all time
+            
+            fitness = max_obs - min_obs
+
+        fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will average them and return them as representative of the genomes fitness 
 
     # The genome's fitness is its average performance across all runs
     return np.mean(fitnesses)
