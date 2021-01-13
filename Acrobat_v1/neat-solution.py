@@ -19,7 +19,7 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultS
 
 net = neat.nn.FeedForwardNetwork.create(c, config)
 
-env = gym.make('MountainCar-v0')
+env = gym.make('Acrobot-v1')
 observation = env. reset()
 
 done= False

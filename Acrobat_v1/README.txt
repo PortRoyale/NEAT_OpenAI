@@ -1,33 +1,39 @@
 ENVIRONMENTS: https://gym.openai.com/envs
 
 
-Description:
-        The agent (a car) is started at the bottom of a valley. For any given
-        state the agent may choose to accelerate to the left, right or cease
-        any acceleration.
-    Source:
-        The environment appeared first in Andrew Moore's PhD Thesis (1990).
-    Observation: # INPUTS
-        Type: Box(2)
-        Num    Observation               Min            Max
-        0      Car Position              -1.2           0.6
-        1      Car Velocity              -0.07          0.07
-    Actions: # OUTPUTS
-        Type: Discrete(3)
-        Num    Action
-        0      Accelerate to the Left
-        1      Don't accelerate
-        2      Accelerate to the Right
-        Note: This does not affect the amount of velocity affected by the
-        gravitational pull acting on the car.
-    Reward:
-         Reward of 0 is awarded if the agent reached the flag (position = 0.5)
-         on top of the mountain.
-         Reward of -1 is awarded if the position of the agent is less than 0.5.
-    Starting State:
-         The position of the car is assigned a uniform random value in
-         [-0.6 , -0.4].
-         The starting velocity of the car is always assigned to 0.
-    Episode Termination:
-         The car position is more than 0.5
-         Episode length is greater than 200
+Acrobot is a 2-link pendulum with only the second joint actuated.
+    Initially, both links point downwards. The goal is to swing the
+    end-effector at a height at least the length of one link above the base.
+    Both links can swing freely and can pass by each other, i.e., they don't
+    collide when they have the same angle.
+    **STATE:**
+    The state consists of the sin() and cos() of the two rotational joint
+    angles and the joint angular velocities :
+    [cos(theta1) sin(theta1) cos(theta2) sin(theta2) thetaDot1 thetaDot2].
+    For the first link, an angle of 0 corresponds to the link pointing downwards.
+    The angle of the second link is relative to the angle of the first link.
+    An angle of 0 corresponds to having the same angle between the two links.
+    A state of [1, 0, 1, 0, ..., ...] means that both links point downwards.
+    **ACTIONS:**
+    The action is either applying +1, 0 or -1 torque on the joint between
+    the two pendulum links.
+    .. note::
+        The dynamics equations were missing some terms in the NIPS paper which
+        are present in the book. R. Sutton confirmed in personal correspondence
+        that the experimental results shown in the paper and the book were
+        generated with the equations shown in the book.
+        However, there is the option to run the domain with the paper equations
+        by setting book_or_nips = 'nips'
+    **REFERENCE:**
+    .. seealso::
+        R. Sutton: Generalization in Reinforcement Learning:
+        Successful Examples Using Sparse Coarse Coding (NIPS 1996)
+    .. seealso::
+        R. Sutton and A. G. Barto:
+        Reinforcement learning: An introduction.
+        Cambridge: MIT press, 1998.
+    .. warning::
+        This version of the domain uses the Runge-Kutta method for integrating
+        the system dynamics and is more realistic, but also considerably harder
+        than the original version which employs Euler integration,
+        see the AcrobotLegacy class.

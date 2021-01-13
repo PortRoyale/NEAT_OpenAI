@@ -2,7 +2,7 @@ import gym
 import time
 
 
-env = gym.make("MountainCar-v0")
+env = gym.make("Acrobot-v1")
 # env = gym.make("BipedalWalker-v3")
 
 observation = env.reset() # vector (or matrix) of values...ANY INFO WE HAVE == observation

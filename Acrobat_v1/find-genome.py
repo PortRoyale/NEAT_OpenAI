@@ -24,12 +24,11 @@ def eval_genome(genome, config):
 
     # Run the given simulation for up to num_steps time steps.
     for runs in range(runs_per_net):
-        env = gym.make("MountainCar-v0") # make new gym environment for every new agent in the epoch 
+        env = gym.make("Acrobot-v1") # make new gym environment for every new agent in the epoch 
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        min_obs = -0.5
-        max_obs = -0.5
+        max__ = -2 # the highest point is when observation = [0 1 0 1 . .]
 
         done = False
 
@@ -40,11 +39,7 @@ def eval_genome(genome, config):
 
             observation, reward, done, info = env.step(action)
 
-
-            max_obs = np.max([max_obs, observation[0]]) # find maximum observed distance of all time
-            min_obs = np.min([min_obs, observation[0]]) # find minimum observed distance of all time
-            
-            fitness = max_obs - min_obs
+            fitness = np.max([max__, -observation[1] - observation[3]])
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will average them and return them as representative of the genomes fitness 
 
