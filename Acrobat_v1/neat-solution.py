@@ -32,33 +32,48 @@ while not done:
 
     observation, reward, done, info = env.step(action)
 
+    env.render()
+
     i += 1
 
     # theta = angle of bar closest to hub
     # alpha = angle of bar farthest from hub
     #NEED TO USE ARCTAN so we can get proper sign on our angles
-    theta = np.arctan(observation[1] / observation[0]) 
-    alpha = np.arctan(observation[3] / observation[2]) 
-    theta_deg = np.arctan(observation[1] / observation[0]) * 180 / np.pi
-    alpha_deg = np.arctan(observation[3] / observation[2]) * 180 / np.pi
+    theta_tan = np.arctan(observation[1] / observation[0]) 
+    alpha_tan = np.arctan(observation[3] / observation[2]) 
+    theta_tan_deg = theta_tan * 180 / np.pi
+    alpha_tan_deg = alpha_tan * 180 / np.pi
 
-    gamma = 2*np.pi - theta - alpha
-    
+    theta_cos = np.arccos(observation[0])
+    alpha_cos = np.arccos(observation[2])
+    theta_cos_deg = theta_cos * 180 / np.pi
+    alpha_cos_deg = alpha_cos * 180 / np.pi
+
+    alpha = alpha_tan
+    theta = theta_tan
+
     cos_theta = observation[0]
-    cos_alpha = observation[2]
 
-    h1 = cos_theta
-    h2 = np.cos(2 * np.pi - theta - alpha)
+    if alpha_cos_deg >= 90:
+        if theta_tan_deg > 0:            
+            alpha = alpha_cos
+        else:
+            alpha = - alpha_cos
+    if theta_cos_deg >= 90:
+        if theta_tan_deg >= 0: # left quadrants
+            theta = - theta_cos
+        else: # right quadrants
+            theta = theta_cos
 
-    current_height = - h1 + h2
+    h1 = - cos_theta
+    h2 = - np.cos(2 * np.pi - theta - alpha)
 
-    print(done, observation, reward, action, current_height, theta, alpha, gamma, h1, h2, i)
+    current_height = h1 + h2
 
-    env.render()
 
-    if current_height >= 1:
-        time.sleep(5)
+    print(observation[0:4], action, i)
 
-    # time.sleep(0.2)
+ 
+
 
 env.close()
