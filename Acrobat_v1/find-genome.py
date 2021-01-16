@@ -32,6 +32,8 @@ def eval_genome(genome, config):
 
         done = False
 
+        i = 0 # add transience to fitness
+
         while not done:
             action = np.argmax(net.activate(observation))
         
@@ -71,9 +73,25 @@ def eval_genome(genome, config):
 
             current_height = h1 + h2
 
-            fitness = np.max([max_height, current_height])
+            transient_factor = (500 - i) / 500 # will be 1.0 on first frame and 0 at last frame
 
-        fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will average them and return them as representative of the genomes fitness 
+            if current_height > 1.0:
+                current_height = 1.0
+
+            current_fitness = transient_factor * current_height**2
+
+            # fitness = np.max([max_height, current_fitness])
+
+            i += 1
+
+            fitness = 500 - i # sometimes the easiest solutions are the most-correct!
+
+
+
+        fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
+
+
+    # print(fitnesses, np.mean(fitnesses))
 
     # The genome's fitness is its average performance across all runs
     return np.mean(fitnesses)
