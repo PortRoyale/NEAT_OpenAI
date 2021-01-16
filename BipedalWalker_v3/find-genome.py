@@ -12,7 +12,7 @@ import gym
 
 
 
-runs_per_net = 4
+runs_per_net = 2
 # simulation_seconds = 60.0
 
 
@@ -24,67 +24,39 @@ def eval_genome(genome, config):
 
     # Run the given simulation for up to num_steps time steps.
     for runs in range(runs_per_net):
-        env = gym.make("Acrobot-v1") # make new gym environment for every new agent in the epoch 
+        env = gym.make("BipedalWalker-v3") # make new gym environment for every new agent in the epoch 
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        max_height = -2 # the highest point is when observation = [0 1 0 1 . .]
 
         done = False
+
+        fitness = 0 # can only go 100 to the left before fall off cliff
 
         i = 0 # add transience to fitness
 
         while not done:
-            action = np.argmax(net.activate(observation))
+            action = net.activate(observation)
         
             observation, reward, done, info = env.step(action)
-        
-            # theta = angle of bar closest to hub
-            # alpha = angle of bar farthest from hub
-            #NEED TO USE ARCTAN so we can get proper sign on our angles
-            theta_tan = np.arctan(observation[1] / observation[0]) 
-            alpha_tan = np.arctan(observation[3] / observation[2]) 
-            theta_tan_deg = theta_tan * 180 / np.pi
-            alpha_tan_deg = alpha_tan * 180 / np.pi
-        
-            theta_cos = np.arccos(observation[0])
-            alpha_cos = np.arccos(observation[2])
-            theta_cos_deg = theta_cos * 180 / np.pi
-            alpha_cos_deg = alpha_cos * 180 / np.pi
-        
-            alpha = alpha_tan
-            theta = theta_tan
-        
-            cos_theta = observation[0]
-        
-            if alpha_cos_deg >= 90:
-                if theta_tan_deg > 0:            
-                    alpha = alpha_cos
-                else:
-                    alpha = - alpha_cos
-            if theta_cos_deg >= 90:
-                if theta_tan_deg >= 0: # left quadrants
-                    theta = - theta_cos
-                else: # right quadrants
-                    theta = theta_cos
-
-            h1 = - cos_theta
-            h2 = - np.cos(2 * np.pi - theta - alpha)
-
-            current_height = h1 + h2
-
-            transient_factor = (500 - i) / 500 # will be 1.0 on first frame and 0 at last frame
-
-            if current_height > 1.0:
-                current_height = 1.0
-
-            current_fitness = transient_factor * current_height**2
-
-            # fitness = np.max([max_height, current_fitness])
 
             i += 1
+        
+            # transient_factor = i / 1600 # (.995) ** 1600 = 0.003. 1600 is cycle loop limit. will be 1.0 on first frame and 0 at last frame
+            
 
-            fitness = 500 - i # sometimes the easiest solutions are the most-correct!
+            if reward > 0:
+                fitness += (2*reward)
+            else:    
+                fitness += reward
+
+
+            # fitness = np.max([max_distance_travelled, reward])
+
+            
+            
+            # fitness = reward
+
 
 
 

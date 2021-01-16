@@ -22,7 +22,9 @@ while not done: # loop environment
 
     i += 1
 
-    print(action, observation, reward, done, info, i) # ok so done == True when conditions of 
+    # print(action, observation, reward, done, info, i) # ok so done == True when conditions of 
+
+    print(done)
 
     env.render()
 
