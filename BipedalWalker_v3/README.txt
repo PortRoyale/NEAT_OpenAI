@@ -1,39 +1,30 @@
-ENVIRONMENTS: https://gym.openai.com/envs
+ENVIRONMENTS: https://gym.openai.com/envs# This is simple 4-joints walker robot environment.
 
 
-Acrobot is a 2-link pendulum with only the second joint actuated.
-    Initially, both links point downwards. The goal is to swing the
-    end-effector at a height at least the length of one link above the base.
-    Both links can swing freely and can pass by each other, i.e., they don't
-    collide when they have the same angle.
-    **STATE:**
-    The state consists of the sin() and cos() of the two rotational joint
-    angles and the joint angular velocities :
-    [cos(theta1) sin(theta1) cos(theta2) sin(theta2) thetaDot1 thetaDot2].
-    For the first link, an angle of 0 corresponds to the link pointing downwards.
-    The angle of the second link is relative to the angle of the first link.
-    An angle of 0 corresponds to having the same angle between the two links.
-    A state of [1, 0, 1, 0, ..., ...] means that both links point downwards.
-    **ACTIONS:**
-    The action is either applying +1, 0 or -1 torque on the joint between
-    the two pendulum links.
-    .. note::
-        The dynamics equations were missing some terms in the NIPS paper which
-        are present in the book. R. Sutton confirmed in personal correspondence
-        that the experimental results shown in the paper and the book were
-        generated with the equations shown in the book.
-        However, there is the option to run the domain with the paper equations
-        by setting book_or_nips = 'nips'
-    **REFERENCE:**
-    .. seealso::
-        R. Sutton: Generalization in Reinforcement Learning:
-        Successful Examples Using Sparse Coarse Coding (NIPS 1996)
-    .. seealso::
-        R. Sutton and A. G. Barto:
-        Reinforcement learning: An introduction.
-        Cambridge: MIT press, 1998.
-    .. warning::
-        This version of the domain uses the Runge-Kutta method for integrating
-        the system dynamics and is more realistic, but also considerably harder
-        than the original version which employs Euler integration,
-        see the AcrobotLegacy class.
+
+
+# There are two versions:
+#
+# - Normal, with slightly uneven terrain.
+#
+# - Hardcore with ladders, stumps, pitfalls.
+#
+# Reward is given for moving forward, total 300+ points up to the far end. If the robot falls,
+# it gets -100. Applying motor torque costs a small amount of points, more optimal agent
+# will get better score.
+#
+# Heuristic is provided for testing, it's also useful to get demonstrations to
+# learn from. To run heuristic:
+#
+# python gym/envs/box2d/bipedal_walker.py
+#
+# State consists of hull angle speed, angular velocity, horizontal speed, vertical speed,
+# position of joints and joints angular speed, legs contact with ground, and 10 lidar
+# rangefinder measurements to help to deal with the hardcore version. There's no coordinates
+# in the state vector. Lidar is less useful in normal version, but it works.
+#
+# To solve the game you need to get 300 points in 1600 time steps.
+#
+# To solve hardcore version you need 300 points in 2000 time steps.
+#
+# Created by Oleg Klimov. Licensed on the same terms as the rest of OpenAI Gym.

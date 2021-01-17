@@ -8,14 +8,14 @@
 
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = 300
-pop_size              = 100
-reset_on_extinction   = True
+fitness_threshold     = 80
+pop_size              = 250
+reset_on_extinction   = False
 
 
 [DefaultGenome]
 num_inputs              = 24
-num_hidden              = 3
+num_hidden              = 2
 num_outputs             = 4
 initial_connection      = partial_direct 0.5
 feed_forward            = True
@@ -61,10 +61,9 @@ compatibility_threshold = 3.0
 
 [DefaultStagnation]
 species_fitness_func = max
-max_stagnation  = 10
-species_elitism = 0
+max_stagnation  = 20
 
 [DefaultReproduction]
-elitism = 0
+elitism            = 2
 survival_threshold = 0.2
 min_species_size = 0

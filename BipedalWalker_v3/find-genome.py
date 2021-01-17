@@ -11,9 +11,7 @@ import visualize
 import gym
 
 
-
-runs_per_net = 2
-# simulation_seconds = 60.0
+runs_per_net = 3
 
 
 # Use the NN network phenotype and the discrete actuator force function.
@@ -28,44 +26,17 @@ def eval_genome(genome, config):
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-
+        fitness = 0
         done = False
 
-        fitness = 0 # can only go 100 to the left before fall off cliff
-
-        i = 0 # add transience to fitness
-
         while not done:
+
             action = net.activate(observation)
-        
             observation, reward, done, info = env.step(action)
-
-            i += 1
-        
-            # transient_factor = i / 1600 # (.995) ** 1600 = 0.003. 1600 is cycle loop limit. will be 1.0 on first frame and 0 at last frame
-            
-
-            if reward > 0:
-                fitness += (2*reward)
-            else:    
-                fitness += reward
-
-
-            # fitness = np.max([max_distance_travelled, reward])
-
-            
-            
-            # fitness = reward
-
-
-
+            fitness += reward
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
 
-
-    # print(fitnesses, np.mean(fitnesses))
-
-    # The genome's fitness is its average performance across all runs
     return np.mean(fitnesses)
 
 
