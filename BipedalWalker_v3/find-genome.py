@@ -34,6 +34,7 @@ def eval_genome(genome, config):
             action = net.activate(observation)
             observation, reward, done, info = env.step(action)
             fitness += reward
+            fitness -= 1/32 # transience factor. Want agents to actually walk instead of sit idle after a few frames
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
 
