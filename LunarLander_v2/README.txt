@@ -2,29 +2,27 @@ ENVIRONMENTS: https://gym.openai.com/envs# This is simple 4-joints walker robot 
 
 
 
+"""
+Rocket trajectory optimization is a classic topic in Optimal Control.
 
-# There are two versions:
-#
-# - Normal, with slightly uneven terrain.
-#
-# - Hardcore with ladders, stumps, pitfalls.
-#
-# Reward is given for moving forward, total 300+ points up to the far end. If the robot falls,
-# it gets -100. Applying motor torque costs a small amount of points, more optimal agent
-# will get better score.
-#
-# Heuristic is provided for testing, it's also useful to get demonstrations to
-# learn from. To run heuristic:
-#
-# python gym/envs/box2d/bipedal_walker.py
-#
-# State consists of hull angle speed, angular velocity, horizontal speed, vertical speed,
-# position of joints and joints angular speed, legs contact with ground, and 10 lidar
-# rangefinder measurements to help to deal with the hardcore version. There's no coordinates
-# in the state vector. Lidar is less useful in normal version, but it works.
-#
-# To solve the game you need to get 300 points in 1600 time steps.
-#
-# To solve hardcore version you need 300 points in 2000 time steps.
-#
-# Created by Oleg Klimov. Licensed on the same terms as the rest of OpenAI Gym.
+According to Pontryagin's maximum principle it's optimal to fire engine full throttle or
+turn it off. That's the reason this environment is OK to have discreet actions (engine on or off).
+
+The landing pad is always at coordinates (0,0). The coordinates are the first two numbers in the state vector.
+Reward for moving from the top of the screen to the landing pad and zero speed is about 100..140 points.
+If the lander moves away from the landing pad it loses reward. The episode finishes if the lander crashes or
+comes to rest, receiving an additional -100 or +100 points. Each leg with ground contact is +10 points.
+Firing the main engine is -0.3 points each frame. Firing the side engine is -0.03 points each frame.
+Solved is 200 points.
+
+Landing outside the landing pad is possible. Fuel is infinite, so an agent can learn to fly and then land
+on its first attempt. Please see the source code for details.
+
+To see a heuristic landing, run:
+python gym/envs/box2d/lunar_lander.py
+
+To play yourself, run:
+python examples/agents/keyboard_agent.py LunarLander-v2
+
+Created by Oleg Klimov. Licensed on the same terms as the rest of OpenAI Gym.
+"""
