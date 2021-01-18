@@ -22,23 +22,16 @@ def eval_genome(genome, config):
 
     # Run the given simulation for up to num_steps time steps.
     for runs in range(runs_per_net):
-        env = gym.make("BipedalWalker-v3") # make new gym environment for every new agent in the epoch 
+        env = gym.make("LunarLander-v2") # make new gym environment for every new agent in the epoch 
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        total_env_frames = 1600
-
-        transience_factor = 32
-
-        fitness = total_env_frames / transience_factor
+        fitness = 0
         done = False
-
         while not done:
-
             action = net.activate(observation)
             observation, reward, done, info = env.step(action)
             fitness += reward
-            fitness -= 1/transience_factor # transience factor. Want agents to actually walk instead of sit idle after a few frames
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
 
@@ -54,7 +47,7 @@ def run():
     # Load the config file, which is assumed to live in
     # the same directory as this script.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'config')
+    config_path = os.path.join(local_dir, 'config-100-threshold')
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)
