@@ -26,7 +26,11 @@ def eval_genome(genome, config):
 
         observation = env.reset() # reset the agents observations in the newly-minted environment
 
-        fitness = 0
+        total_env_frames = 1600
+
+        transience_factor = 32
+
+        fitness = total_env_frames / transience_factor
         done = False
 
         while not done:
@@ -34,7 +38,7 @@ def eval_genome(genome, config):
             action = net.activate(observation)
             observation, reward, done, info = env.step(action)
             fitness += reward
-            fitness -= 1/32 # transience factor. Want agents to actually walk instead of sit idle after a few frames
+            fitness -= 1/transience_factor # transience factor. Want agents to actually walk instead of sit idle after a few frames
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
 

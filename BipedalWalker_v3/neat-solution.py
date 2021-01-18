@@ -7,15 +7,15 @@ import time
 
 
 # Load the winner from thisisneat.py
-with open('winner-NEAT-pickle-70-threshold', 'rb') as f:
+with open('winner-NEAT-pickle-100-threshold', 'rb') as f:
     c = pickle.load(f)
 
-print('Loaded genome: ')
-print(c)
+# print('Loaded genome: ')
+# print(c)
 
 # Load the config file, which is assumed to live in the same directory as this script. (same config used with thisisneat.py)
 local_dir = os.path.dirname(__file__)
-config_path = os.path.join(local_dir, 'config-70-threshold')
+config_path = os.path.join(local_dir, 'config-100-threshold')
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
 
 net = neat.nn.FeedForwardNetwork.create(c, config)
@@ -48,3 +48,5 @@ while not done:
 
 
 env.close()
+
+print(c)
