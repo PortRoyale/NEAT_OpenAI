@@ -28,9 +28,12 @@ def eval_genome(genome, config):
 
         fitness = 0
         done = False
+
         while not done:
-            action = net.activate(observation)
+            action = np.argmax(net.activate(observation))
+            # print(action)
             observation, reward, done, info = env.step(action)
+            # print(observation)
             fitness += reward
 
         fitnesses.append(fitness) # if the same genome does more than one trial, this fxn will add all fitnesses to an array
@@ -47,7 +50,7 @@ def run():
     # Load the config file, which is assumed to live in
     # the same directory as this script.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'config-100-threshold')
+    config_path = os.path.join(local_dir, 'config')
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)

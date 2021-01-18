@@ -49,7 +49,7 @@ i = 0
 
 while not done: # loop environment 
 
-    observation, reward, done, info = env.step(0) # env.action_space.sample() is where our agent goes. for now, it is random sampling as a placeholder
+    observation, reward, done, info = env.step(env.action_space.sample()) # env.action_space.sample() is where our agent goes. for now, it is random sampling as a placeholder
     action = env.action_space.sample()
 
     i += 1
@@ -63,7 +63,7 @@ while not done: # loop environment
 
 env.close()
 
-print(observation)
-print(env.action_space)
-print(env.observation_space)
-print(env.action_space.sample())
+# print(observation)
+# print(env.action_space)
+# print(env.observation_space)
+# print(env.action_space.sample())
