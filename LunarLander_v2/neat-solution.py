@@ -30,7 +30,7 @@ total_reward = 0
 i = 0
 
 while not done:
-    action = net.activate(observation)
+    action = np.argmax(net.activate(observation))
 
     observation, reward, done, info = env.step(action)
 
@@ -39,14 +39,12 @@ while not done:
     total_reward += reward
     i += 1
 
-    print(done, i, reward, total_reward)
-
+    # print(done, i, reward, total_reward)
 
     # print(observation[0:4], action, i)
-
- 
 
 
 env.close()
 
-print(c)
+# print(c)
+print(total_reward, reward)

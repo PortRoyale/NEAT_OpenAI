@@ -11,8 +11,7 @@ import visualize
 import gym
 
 
-runs_per_net = 3
-
+runs_per_net = 4
 
 # Use the NN network phenotype and the discrete actuator force function.
 def eval_genome(genome, config):

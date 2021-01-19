@@ -3,7 +3,7 @@
 import pickle
 from shutil import copyfile
 
-file_surname = '72-fitness'
+file_surname = '200-fitness'
 
 
 
