@@ -6,12 +6,9 @@ import numpy as np
 import time
 
 
-# Load the winner from thisisneat.py
+# Load the winner from find-genome.py
 with open('winner-NEAT-pickle', 'rb') as f:
     c = pickle.load(f)
-
-# print('Loaded genome: ')
-# print(c)
 
 # Load the config file, which is assumed to live in the same directory as this script. (same config used with thisisneat.py)
 local_dir = os.path.dirname(__file__)
