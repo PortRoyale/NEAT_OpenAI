@@ -10,7 +10,9 @@ MY APPROACH:
 3) Run env-testing.py and find out what the environment is about. In other words, look at return values of the current state of the environment. Also, understand the format of possible actions the agent can take in it's pursuit of a solution. Poke around a bit, ok. 
 5) Configure 'config' file. If you don't understand the config file, go to https://neat-python.readthedocs.io/en/latest/config_file.html and also read the NEAT paper above. It helps a lot.
 6) Run 'find-genome.py', it will complete if a genome that meets your config file fitness_threshold is met. If it doesn't find one in a certain amount of time or isn't showing improvement while training, you can lower your fitness_threshold or reconfigure other variables within the 'config'.
+
 7A) Check your solution with 'neat-solution.py'. Sometimes the fitness threshold will pass in training/testing/evolution but will not be valid solutions. In other words, you get a severe outlier that registers a couple lucky wins in a row (because not enough runs_per_net in 'find-solution.py').
+
 7B) Use a config that I may have provided for a winning solution.
     NOTE: If using a solution I have found, make sure you change the 'config' and 'winner-NEAT-pickle' strings in 'neat-solution.py' to the appropriate pair of config file and pickle file. For example, 'config' would change to 'config-200-fitness' and 'winner-NEAT-pickle' would change to 'winner-NEAT-pickle-200-fitness'.
 8) After a solution is found and checked, save that model and config file using 'copy-machine'. Make sure to label the surname that will be added to the copied files so you can reference it later. 
