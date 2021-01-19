@@ -2,8 +2,7 @@
 
 This repository is a suite of Python scripts to find efficient solutions to specific OpenAI Gym environments by configuring, training, and applying the NEAT-Python neural network framework. NeuroEvolution of Augmenting Topologies (NEAT) is a neuro-evolutionary (genetic) algorithm written about in the early 2000's by Ken Stanley. I found reading a couple of the published papers on the algorithm quite interesting, so I decided it was time to see if I could apply what I had learned to OpenAI's learning environments. I must say it is my first time working with OpenAI Gym environments, and I am extra pleased with those as well. I look forward to applying other machine learning techniques to solve these problems. I believe reading about and understanding HyperNEAT will be the next pursuit, in hopes of successfully applying what I have learned to solve the OpenAI Atari environments. Much credit goes to Sentdex on Youtube for making a NEAT and OpenAI video that I watched multiple times, and then applied what I had learned from the NEAT paper at http://nn.cs.utexas.edu/downloads/papers/stanley.cec02.pdf and Sentdex to other OpenAI Gym environments.
 
-MY APPROACH:
-
+If you would like to use and play around with these scripts, the following steps may help:
 *) Go to https://www.cs.ucf.edu/~kstanley/neat.html and learn about NEAT from the man who wrote it himself.
 1) Pick an environment in this repository to test NEAT inside of.
 2) Open and absorb the README in each environment folder. It will hopefully explain what the goals, rewards, and inputs/outputs should be.
